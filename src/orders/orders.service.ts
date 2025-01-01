@@ -18,7 +18,7 @@ export class OrdersService {
 
         const tempProduct = [];
         for (const order of products) {
-            const product = await this.productModel.findOne({ name: order.name });
+            const product = await this.productModel.findOne({ name: { $regex: `^${order.name}$`, $options: 'i' } });
             if (!product || product.quantity < order.quantity) {
                 console.log(`No ${order.name} in inventory`);
                 continue;

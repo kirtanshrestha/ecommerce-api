@@ -13,8 +13,8 @@ export class AuthController {
         description: 'User credentials (username and password)',
         schema: {
             properties: {
-                username: { type: 'string', example: 'john_doe' },
-                password: { type: 'string', example: 'password123' },
+                username: { type: 'string', example: 'admin2' },
+                password: { type: 'string', example: 'adminpass2' },
             },
         },
     })
@@ -27,7 +27,7 @@ export class AuthController {
 
         if (user.flag == 2)
             return { message: `Password for ${body.username} invalid` };
-
+        
         const token = this.authService.generateToken(body.username, user.roles);
         return { token };
     }

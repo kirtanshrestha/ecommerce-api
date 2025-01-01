@@ -15,7 +15,7 @@ export class OrdersController {
     @UseGuards(AuthGuard)
     @Post()
     @ApiBearerAuth()
-    @ApiOperation({ summary: 'Create a new order' }) 
+    @ApiOperation({ summary: 'Create a new order' })
     @ApiResponse({ status: 201, description: 'Product created successfully.' })
     @ApiResponse({ status: 400, description: 'Bad Request.' })
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }))
@@ -26,24 +26,39 @@ export class OrdersController {
     }
 
     @Get()
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get a list of orders' })
+    @ApiResponse({ status: 200, description: 'List of orders.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized. User must be authenticated.' })
     @Roles('user')
     async getAllOrder() {
         return this.ordersService.getAllOrder();
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Get a specific order from its id' })
+    @ApiResponse({ status: 200, description: 'Specific order.' })
+    @ApiResponse({ status: 404, description: 'Order not found.' })
     async getOrderById(@Param('id') orderId: string) {
         return this.ordersService.getOrderById(orderId);
     }
 
     @Get('user/:username')
-    @Roles('user')
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get a specific order from usernamea' })
+    @ApiResponse({ status: 200, description: 'specific order.' })
+    @ApiResponse({ status: 404, description: 'Order not found.' })
     async getOrderByUsername(@Param('username') username: string) {
         return this.ordersService.getOrderByUserName(username);
 
     }
 
+    @UseGuards(AuthGuard)
     @Delete(':id')
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Delete an order by ID' })
+    @ApiResponse({ status: 200, description: 'Order deleted successfully.' })
+    @ApiResponse({ status: 404, description: 'Order not found.' })
     async deleteOrder(@Param('id') id: string) {
         return this.ordersService.deleteOrder(id);
     }

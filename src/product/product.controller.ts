@@ -30,10 +30,10 @@ export class ProductController {
         return this.productService.getAllProducts();
     }
 
-    @ApiOperation({ summary: 'Get a specific product from its id' })
-    @ApiResponse({ status: 200, description: 'specifit product.' })
-    @ApiResponse({ status: 404, description: 'Product not found.' })
     @Get(':id')
+    @ApiOperation({ summary: 'Get a specific product from its id' })
+    @ApiResponse({ status: 200, description: 'specific product.' })
+    @ApiResponse({ status: 404, description: 'Product not found.' })
     async getProductById(@Param('id') id: string): Promise<Product> {
         try {
             return await this.productService.getProductById(id);
@@ -44,10 +44,10 @@ export class ProductController {
 
     @UseGuards(AuthGuard)
     @Delete(':id')
-    @ApiBearerAuth()
-    @ApiOperation({ summary: 'Delete a product by ID' })
-    @ApiResponse({ status: 200, description: 'Product deleted successfully.' })
-    @ApiResponse({ status: 404, description: 'Product not found.' })
+        @ApiBearerAuth()
+        @ApiOperation({ summary: 'Delete a product by ID' })
+        @ApiResponse({ status: 200, description: 'Product deleted successfully.' })
+        @ApiResponse({ status: 404, description: 'Product not found.' })
     async deleteProduct(@Param('id') id: string): Promise<void> {
         try {
             return await this.productService.deleteProduct(id);

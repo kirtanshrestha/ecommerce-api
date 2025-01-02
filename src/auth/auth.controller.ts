@@ -9,6 +9,8 @@ export class AuthController {
 
     @Post('login')
     @ApiOperation({ summary: 'Login to the system and get an authentication token' })
+    @ApiResponse({ status: 200, description: 'Successfully logged in and received a token.' })
+    @ApiResponse({ status: 400, description: 'Invalid credentials or other error.' })
     @ApiBody({
         description: 'User credentials (username and password)',
         schema: {
@@ -18,8 +20,6 @@ export class AuthController {
             },
         },
     })
-    @ApiResponse({ status: 200, description: 'Successfully logged in and received a token.' })
-    @ApiResponse({ status: 400, description: 'Invalid credentials or other error.' })
     async login(@Req() req, @Body() body: { username: string, password: string }) {
         const user = await this.authService.validateUser(body.username, body.password);
         if (user.flag == 0)
@@ -27,7 +27,7 @@ export class AuthController {
 
         if (user.flag == 2)
             return { message: `Password for ${body.username} invalid` };
-        
+
         const token = this.authService.generateToken(body.username, user.roles);
         return { token };
     }

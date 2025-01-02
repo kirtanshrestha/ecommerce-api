@@ -3,18 +3,24 @@ import { ProductService } from './product.service';
 import { Product } from './schemas/product.schema';
 import { AuthGuard } from '../auth/auth.guard';
 import { CreateProductDto } from './dto/create-product.dto';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decoratos/roles.decorator';
 
+@UseGuards(RolesGuard)
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @UseGuards(AuthGuard)
     @Post()
+    @Roles('admin')
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Create a new product' })  // Description of the endpoint
     @ApiResponse({ status: 201, description: 'Product created successfully.' })
     @ApiResponse({ status: 400, description: 'Bad Request.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. Requires admin role.' })
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     async createProduct(@Body() createProductDto: CreateProductDto) {
         return this.productService.createProduct(createProductDto);
@@ -44,10 +50,10 @@ export class ProductController {
 
     @UseGuards(AuthGuard)
     @Delete(':id')
-        @ApiBearerAuth()
-        @ApiOperation({ summary: 'Delete a product by ID' })
-        @ApiResponse({ status: 200, description: 'Product deleted successfully.' })
-        @ApiResponse({ status: 404, description: 'Product not found.' })
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Delete a product by ID' })
+    @ApiResponse({ status: 200, description: 'Product deleted successfully.' })
+    @ApiResponse({ status: 404, description: 'Product not found.' })
     async deleteProduct(@Param('id') id: string): Promise<void> {
         try {
             return await this.productService.deleteProduct(id);
@@ -66,10 +72,13 @@ export class ProductController {
         return this.productService.updateProductbyName(name, body);
     }
 
+    @UseGuards(AuthGuard)
+    @Roles('admin')
     @Patch('id/:id')
     @ApiOperation({ summary: 'Update a product by ID' })
     @ApiResponse({ status: 200, description: 'Product updated successfully.' })
     @ApiResponse({ status: 404, description: 'Product not found.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. Requires admin role.' })
     updateProduct(@Param('id') id: string, @Body() body) {
         return this.productService.updateProduct(id, body);
     }

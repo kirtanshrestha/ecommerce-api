@@ -6,14 +6,14 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decoratos/roles.decorator';
+import { create } from 'domain';
 
-@UseGuards(RolesGuard)
 @ApiTags('Product')
 @Controller('product')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RolesGuard)
     @Post()
     @Roles('admin')
     @ApiBearerAuth()
@@ -48,7 +48,8 @@ export class ProductController {
         }
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles('admin')
     @Delete(':id')
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Delete a product by ID' })
@@ -62,24 +63,27 @@ export class ProductController {
         }
     }
 
-    @UseGuards(AuthGuard)
+
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles('admin')
     @Patch(':name')
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Update a product by name' })
     @ApiResponse({ status: 200, description: 'Product updated successfully.' })
     @ApiResponse({ status: 404, description: 'Product not found.' })
-    updateProductbyName(@Param('name') name: string, @Body() body) {
-        return this.productService.updateProductbyName(name, body);
+    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    updateProductbyName(@Param('name') name: string, @Body() createProductDto:CreateProductDto) {
+        return this.productService.updateProductbyName(name, createProductDto);
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RolesGuard)
     @Roles('admin')
     @Patch('id/:id')
     @ApiOperation({ summary: 'Update a product by ID' })
     @ApiResponse({ status: 200, description: 'Product updated successfully.' })
     @ApiResponse({ status: 404, description: 'Product not found.' })
     @ApiResponse({ status: 403, description: 'Forbidden. Requires admin role.' })
-    updateProduct(@Param('id') id: string, @Body() body) {
-        return this.productService.updateProduct(id, body);
+    updateProduct(@Param('id') id: string, @Body() createProductDto: CreateProductDto) {
+        return this.productService.updateProduct(id, createProductDto);
     }
 }

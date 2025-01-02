@@ -6,9 +6,10 @@ import { Product } from './schemas/product.schema';
 import { ProductSchema } from './schemas/product.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from 'src/auth/auth.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [JwtModule, AuthModule,
+  imports: [JwtModule, AuthModule, UserModule,
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
   ],
   controllers: [ProductController],

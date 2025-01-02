@@ -9,12 +9,11 @@ import { ApiResponse, ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagg
 
 @ApiTags('Orders')
 @Controller('orders')
-@UseGuards(RolesGuard)
 export class OrdersController {
     constructor(private readonly ordersService: OrdersService) { }
 
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard,RolesGuard)
     @Post()
     @Roles('user')
     @ApiBearerAuth()
@@ -30,7 +29,7 @@ export class OrdersController {
     }
 
     @Get()
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard,RolesGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Get a list of orders' })
     @ApiResponse({ status: 200, description: 'List of orders.' })
@@ -49,9 +48,10 @@ export class OrdersController {
         return this.ordersService.getOrderById(orderId);
     }
 
+    @UseGuards(AuthGuard)
     @Get('user/:username')
     @ApiBearerAuth()
-    @ApiOperation({ summary: 'Get a specific order from usernamea' })
+    @ApiOperation({ summary: 'Get a specific order from username' })
     @ApiResponse({ status: 200, description: 'specific order.' })
     @ApiResponse({ status: 404, description: 'Order not found.' })
     async getOrderByUsername(@Param('username') username: string) {
@@ -59,7 +59,7 @@ export class OrdersController {
 
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard,RolesGuard)
     @Delete(':id')
     @ApiBearerAuth()
     @Roles('admin')

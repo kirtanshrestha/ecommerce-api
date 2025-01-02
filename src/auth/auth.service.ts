@@ -28,7 +28,7 @@ export class AuthService {
     }
 
     generateToken(username: any, roles: any): any {
-     
+
         const payload = { username: username, roles: roles }
         return this.jwtService.sign(payload, { expiresIn: '15m' });
     }

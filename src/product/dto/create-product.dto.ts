@@ -8,6 +8,7 @@ export class CreateProductDto {
         example: 'Pencil',
     })
     @IsString()
+    @IsOptional()
     name: string;
 
     @ApiProperty({
@@ -25,6 +26,7 @@ export class CreateProductDto {
     })
     @IsNumber()
     @Min(0)
+    @IsOptional()
     price: number;
 
     @ApiProperty({
@@ -33,5 +35,6 @@ export class CreateProductDto {
     })
     @IsNumber()
     @Min(0)
+    @IsOptional()
     quantity: number;
 }

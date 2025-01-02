@@ -16,7 +16,7 @@ export class UserController {
     @ApiResponse({ status: 201, description: 'User successfully created.' })
     @ApiResponse({ status: 400, description: 'Invalid input.' })
     @ApiResponse({ status: 403, description: 'Forbidden. Requires admin role.' })
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RolesGuard)
     @Post()
     @Roles('admin')
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -28,7 +28,7 @@ export class UserController {
     @ApiOperation({ summary: 'Get all users' })
     @ApiResponse({ status: 200, description: 'List of users.' })
     @ApiResponse({ status: 403, description: 'Forbidden. Requires admin role.' })
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard,RolesGuard)
     @Roles('admin')
     @Get()
     async getAllUser() {

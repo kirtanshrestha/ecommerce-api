@@ -24,7 +24,16 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+E-Commerce API with NestJS
+
+This project is a fully-featured E-Commerce API built with NestJS and MongoDB, designed to manage products, user authentication, order handling, and role-based access control. The API includes the following core features:
+
+Authentication & Authorization: Utilizes JWT (JSON Web Tokens) for secure authentication. Role-based access control is implemented to ensure that users have appropriate permissions for different actions.
+Product Management: CRUD (Create, Read, Update, Delete) operations for managing products, including fields like name, description, price, and quantity.
+Order Management: Enables users to place and manage orders, including cart functionality and order history.
+API Documentation: Integrated with Swagger for easy API exploration and testing.
+MongoDB Integration: Uses MongoDB as the database for storing user and product information.
+The API is designed to be scalable, with future plans for adding payment gateway integration, enhanced search capabilities, and more advanced features.
 
 ## Project setup
 

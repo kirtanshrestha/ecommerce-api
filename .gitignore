@@ -42,6 +42,13 @@ lerna-debug.log*
 .env.production.local
 .env.local
 
+
+node_modules/
+.idea/
+.vscode/
+public/uploads/
+config/secrets/
+
 # temp directory
 .temp
 .tmp

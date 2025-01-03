@@ -30,7 +30,7 @@ export class AuthController {
             return { message: `Password for ${body.username} invalid` };
 
         const token = this.authService.generateToken(body.username, user.roles);
-        return { token };
+        return { token };   
     }
 
     @Get()

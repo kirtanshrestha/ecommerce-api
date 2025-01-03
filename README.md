@@ -26,14 +26,15 @@
 
 E-Commerce API with NestJS
 
-This project is a fully-featured E-Commerce API built with NestJS and MongoDB, designed to manage products, user authentication, order handling, and role-based access control. The API includes the following core features:
+This project is an E-Commerce API built using NestJS, which includes features such as product management, user authentication, order management, and payment handling. The API integrates Stripe for payment processing, allowing customers to make secure payments through Stripe's client-side library (Stripe Elements).
 
-Authentication & Authorization: Utilizes JWT (JSON Web Tokens) for secure authentication. Role-based access control is implemented to ensure that users have appropriate permissions for different actions.
-Product Management: CRUD (Create, Read, Update, Delete) operations for managing products, including fields like name, description, price, and quantity.
-Order Management: Enables users to place and manage orders, including cart functionality and order history.
-API Documentation: Integrated with Swagger for easy API exploration and testing.
-MongoDB Integration: Uses MongoDB as the database for storing user and product information.
-The API is designed to be scalable, with future plans for adding payment gateway integration, enhanced search capabilities, and more advanced features.
+Key Features:
+Product Management: CRUD operations for products, including adding, updating, and deleting products.
+User Authentication: Secure authentication using JWT for managing users and roles.
+Order Management: Handling shopping carts, placing orders, and order history.
+Stripe Integration: Stripe payment intents are created on the backend, and payments are processed using Stripe Elements on the frontend.
+Frontend Payment Form: An HTML form collects payment details via Stripe Elements, which is linked with the backend to confirm payments.
+The backend provides an API for managing products, users, and orders, while handling payment processing through Stripe. The frontend collects card details, submits them for payment confirmation, and displays the result.
 
 ## Project setup
 

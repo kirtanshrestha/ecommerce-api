@@ -38,7 +38,7 @@ export class OrdersService {
             username,
             products: tempProduct,
             total,
-            status: 'Shipped',
+            status: 'Pending',
         });
         return newOrder.save();
 

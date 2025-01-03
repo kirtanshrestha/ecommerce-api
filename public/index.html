@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        #card-element {
+            height: 40px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Stripe Payment</h1>
+    <div id="card-element">
+        <!-- Stripe card input will be inserted here -->
+    </div>
+
+    <button id="submit" type="button">Pay</button>
+
+    <script>
+        // Your Stripe public key (replace with your actual public key)
+        const stripe = Stripe('pk_test_51QckCVB25KygpkP3tQQeEi48k2NMCiBr4Mxlhp4Sn1Yqmd8joHEQCKr4B7W8BNtkZ2XEvZaHPLCKwVbM4CuV750r00AcwRszlG');
+
+        // Create an instance of Elements
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+
+        // Function to get the client secret from the URL
+        function getClientSecretFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('clientSecret');
+        }
+
+        // Handle the payment button click
+        document.getElementById('submit').addEventListener('click', async () => {
+            const clientSecret = getClientSecretFromUrl();  // Fetch client secret from the URL
+
+            if (!clientSecret) {
+                console.error('Client secret is missing!');
+                return;
+            }
+
+            // Confirm the payment with the Stripe client secret and card details
+            const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: 'Customer Name'  // Optional: Add customer name or other details here
+                    }
+                }
+            });
+
+            // Handle error or success
+            if (error) {
+                console.error('Error:', error.message);
+            } else {
+                console.log('Payment succeeded:', paymentIntent);
+                alert('Payment successful!');
+            }
+        });
+    </script>
+</body>
+
+</html>

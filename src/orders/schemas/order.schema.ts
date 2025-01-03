@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, ObjectId } from 'mongoose';
 import { Types } from 'mongoose';
 import { User } from '../../user/schemas/user.schema';
 
@@ -19,6 +19,7 @@ export class Order {
 
     @Prop({ defaults: 'pending' })
     status: string;
+    public _id: unknown | ObjectId;
 
 }
 export const OrderSchema = SchemaFactory.createForClass(Order);

@@ -11,9 +11,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+import { StripeModule } from './stripe/stripe.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     ConfigModule.forRoot({
       isGlobal: true, // Make the variables available globally
     }),
@@ -27,6 +33,7 @@ import { UserModule } from './user/user.module';
       signOptions: { expiresIn: '1h' }, // Token expires in 1 hour
     }),
     UserModule,
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

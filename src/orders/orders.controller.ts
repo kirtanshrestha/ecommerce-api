@@ -23,8 +23,6 @@ export class OrdersController {
     @ApiResponse({ status: 403, description: 'Forbidden. Requires user role.' })
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }))
     async createOrder(@Req() req, @Body() createOrderDto: CreateOrderDto) {
-        const userId = req.user.id;
-        console.log(userId);
         return this.ordersService.createOrder(req.user.username, createOrderDto.products);
     }
 

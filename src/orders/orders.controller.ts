@@ -13,7 +13,7 @@ export class OrdersController {
     constructor(private readonly ordersService: OrdersService) { }
 
 
-    @UseGuards(AuthGuard,RolesGuard)
+    @UseGuards(AuthGuard, RolesGuard)
     @Post()
     @Roles('user')
     @ApiBearerAuth()
@@ -27,7 +27,7 @@ export class OrdersController {
     }
 
     @Get()
-    @UseGuards(AuthGuard,RolesGuard)
+    @UseGuards(AuthGuard, RolesGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Get a list of orders' })
     @ApiResponse({ status: 200, description: 'List of orders.' })
@@ -57,7 +57,7 @@ export class OrdersController {
 
     }
 
-    @UseGuards(AuthGuard,RolesGuard)
+    @UseGuards(AuthGuard, RolesGuard)
     @Delete(':id')
     @ApiBearerAuth()
     @Roles('admin')
